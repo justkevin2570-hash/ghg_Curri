@@ -1,0 +1,28 @@
+#!/bin/sh
+# pre-commit 훅 — 커밋 전 코드 품질 자동 검사
+
+echo ">>> [pre-commit] 코드 포맷 검사 중..."
+dart format --set-exit-if-changed lib/
+FORMAT_RESULT=$?
+
+if [ $FORMAT_RESULT -ne 0 ]; then
+  echo ""
+  echo "!!! 포맷 오류: 아래 명령으로 자동 수정 후 다시 커밋하세요."
+  echo "    dart format lib/"
+  echo ""
+  exit 1
+fi
+
+echo ">>> [pre-commit] Flutter 정적 분석 중..."
+flutter analyze
+ANALYZE_RESULT=$?
+
+if [ $ANALYZE_RESULT -ne 0 ]; then
+  echo ""
+  echo "!!! 분석 오류: 위 에러를 수정한 후 다시 커밋하세요."
+  echo ""
+  exit 1
+fi
+
+echo ">>> [pre-commit] 모든 검사 통과!"
+exit 0
