@@ -19,51 +19,14 @@
 
 ---
 
-## 실행 명령어
+## 실패 사례 (하지 말 것)
 
-```bash
-# 크롬 브라우저 (웹 미리보기)
-flutter run -d chrome
-
-# Windows 앱
-flutter run -d windows
-
-# 실행 중 핫 리로드
-r   # 코드 변경 즉시 반영
-R   # 앱 완전 재시작
-q   # 종료
-```
-
----
-
-## 코드 컨벤션
-
-- `StatelessWidget` 선호 (상태 관리 불필요한 경우)
-- 생성자는 `const` 사용 (`const Subject(...)`)
-- 색상은 `AppTheme.*` 상수 참조 (`AppTheme.primary`, `AppTheme.background` 등)
-- 화면 전환은 기존 `PageRouteBuilder` + `FadeTransition + SlideTransition` 패턴 유지
-
----
-
-## 데이터 수정 방법
-
-`lib/data/sample_data.dart` 의 `subjectCategories` 리스트를 편집한다.
-
+### Color.withOpacity() 사용 금지
+Dart 3에서 deprecated. 반드시 `.withValues(alpha: 0.x)` 사용.
 ```dart
-Subject(
-  name: '과목명',
-  units: 4,           // 단위수
-  description: '설명',
-  keyPoints: ['학습 내용 1', '학습 내용 2'],
-  isRequired: true,   // 필수: true, 선택: false (기본값)
-)
+// 틀림
+color.withOpacity(0.3)
+
+// 맞음
+color.withValues(alpha: 0.3)
 ```
-
----
-
-## 주의사항
-
-- 불필요한 패키지 추가 금지 (현재 flutter + cupertino_icons만 사용)
-- 과도한 추상화 금지 (단순한 변경은 기존 파일 직접 수정)
-- `build/`, `.dart_tool/` 폴더는 커밋하지 않음
-- 커밋 전 `flutter analyze` 통과 필수 (pre-commit 훅이 자동 검사)

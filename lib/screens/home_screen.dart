@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
+            const Text(
               '교과를 선택하여 개설 과목을 확인하세요',
               style: TextStyle(
                 fontSize: 14,
